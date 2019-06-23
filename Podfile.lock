@@ -1,7 +1,7 @@
 PODS:
-  - Charts (3.1.1):
-    - Charts/Core (= 3.1.1)
-  - Charts/Core (3.1.1)
+  - Charts (3.3.0):
+    - Charts/Core (= 3.3.0)
+  - Charts/Core (3.3.0)
 
 DEPENDENCIES:
   - Charts
@@ -11,8 +11,8 @@ SPEC REPOS:
     - Charts
 
 SPEC CHECKSUMS:
-  Charts: 90a4d61da0f6e06684c591e3bcab11940fe61736
+  Charts: e0dd4cd8f257bccf98407b58183ddca8e8d5b578
 
-PODFILE CHECKSUM: 8e07bbc7790482d0787f1a3c832e157bb8d1a10f
+PODFILE CHECKSUM: b2579669eead27698789cc2e0731853e88f9ebd1
 
 COCOAPODS: 1.5.2
