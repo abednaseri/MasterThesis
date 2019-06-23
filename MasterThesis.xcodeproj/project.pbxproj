@@ -10,6 +10,9 @@
 		0D62D79E92CA106AEDE5BA7F /* Pods_MasterThesis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5CEFE961E5B1F93B29EC922 /* Pods_MasterThesis.framework */; };
 		641E80768804577C9A67F26D /* Pods_MasterThesisTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58A2EC18E179DBDD4F350C6A /* Pods_MasterThesisTests.framework */; };
 		B161B6C522BEADC700C3C398 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B6C422BEADC700C3C398 /* Strings.swift */; };
+		B161B6CA22BF9C1200C3C398 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B6C922BF9C1200C3C398 /* Student.swift */; };
+		B161B6CC22BF9E6700C3C398 /* ScenarioQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B6CB22BF9E6700C3C398 /* ScenarioQuestions.swift */; };
+		B161B6CE22BFC0E600C3C398 /* Household.swift in Sources */ = {isa = PBXBuildFile; fileRef = B161B6CD22BFC0E600C3C398 /* Household.swift */; };
 		B166718922BBDFC0008967A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B166718822BBDFC0008967A7 /* AppDelegate.swift */; };
 		B166718B22BBDFC0008967A7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B166718A22BBDFC0008967A7 /* ViewController.swift */; };
 		B166718E22BBDFC0008967A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B166718C22BBDFC0008967A7 /* Main.storyboard */; };
@@ -35,6 +38,9 @@
 		58A2EC18E179DBDD4F350C6A /* Pods_MasterThesisTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MasterThesisTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		89D85D6DCD11F37F398A6B6D /* Pods-MasterThesisTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MasterThesisTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MasterThesisTests/Pods-MasterThesisTests.release.xcconfig"; sourceTree = "<group>"; };
 		B161B6C422BEADC700C3C398 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		B161B6C922BF9C1200C3C398 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
+		B161B6CB22BF9E6700C3C398 /* ScenarioQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenarioQuestions.swift; sourceTree = "<group>"; };
+		B161B6CD22BFC0E600C3C398 /* Household.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Household.swift; sourceTree = "<group>"; };
 		B166718522BBDFC0008967A7 /* MasterThesis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MasterThesis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B166718822BBDFC0008967A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B166718A22BBDFC0008967A7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -100,6 +106,34 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		B161B6C622BEBB0500C3C398 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B16671A822BBEB1F008967A7 /* households.csv */,
+				B16671A922BBEB1F008967A7 /* students.csv */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		B161B6C722BEBB1C00C3C398 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B166718822BBDFC0008967A7 /* AppDelegate.swift */,
+				B166718A22BBDFC0008967A7 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B161B6C822BF9BD900C3C398 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B161B6C922BF9C1200C3C398 /* Student.swift */,
+				B161B6CB22BF9E6700C3C398 /* ScenarioQuestions.swift */,
+				B161B6CD22BFC0E600C3C398 /* Household.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		B166717C22BBDFC0008967A7 = {
 			isa = PBXGroup;
 			children = (
@@ -123,11 +157,10 @@
 		B166718722BBDFC0008967A7 /* MasterThesis */ = {
 			isa = PBXGroup;
 			children = (
+				B161B6C822BF9BD900C3C398 /* Model */,
+				B161B6C722BEBB1C00C3C398 /* Controllers */,
+				B161B6C622BEBB0500C3C398 /* Data */,
 				B161B6C322BEAD9A00C3C398 /* Extensions */,
-				B166718822BBDFC0008967A7 /* AppDelegate.swift */,
-				B16671A822BBEB1F008967A7 /* households.csv */,
-				B16671A922BBEB1F008967A7 /* students.csv */,
-				B166718A22BBDFC0008967A7 /* ViewController.swift */,
 				B166718C22BBDFC0008967A7 /* Main.storyboard */,
 				B166718F22BBDFC2008967A7 /* Assets.xcassets */,
 				B166719122BBDFC2008967A7 /* LaunchScreen.storyboard */,
@@ -156,6 +189,7 @@
 				B166718122BBDFC0008967A7 /* Sources */,
 				B166718222BBDFC0008967A7 /* Frameworks */,
 				B166718322BBDFC0008967A7 /* Resources */,
+				05148642AAB32BC30B57712A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -174,7 +208,6 @@
 				B166719522BBDFC2008967A7 /* Sources */,
 				B166719622BBDFC2008967A7 /* Frameworks */,
 				B166719722BBDFC2008967A7 /* Resources */,
-				E99611BD31623A5912D8D78C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -247,6 +280,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		05148642AAB32BC30B57712A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MasterThesis/Pods-MasterThesis-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MasterThesis/Pods-MasterThesis-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		0B7E201BF16004F32764C990 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -283,24 +334,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		E99611BD31623A5912D8D78C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-MasterThesisTests/Pods-MasterThesisTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MasterThesisTests/Pods-MasterThesisTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -311,6 +344,9 @@
 				B166718B22BBDFC0008967A7 /* ViewController.swift in Sources */,
 				B161B6C522BEADC700C3C398 /* Strings.swift in Sources */,
 				B166718922BBDFC0008967A7 /* AppDelegate.swift in Sources */,
+				B161B6CE22BFC0E600C3C398 /* Household.swift in Sources */,
+				B161B6CC22BF9E6700C3C398 /* ScenarioQuestions.swift in Sources */,
+				B161B6CA22BF9C1200C3C398 /* Student.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
