@@ -15,13 +15,11 @@ class ViewController: UIViewController {
     var students: [Student] = []
     var households: [Household] = []
     var rawHouseholds: [[String]]!
-    let chartDescriptionText = "This is the description"
-    let xAxisTitle = "This is the X Axis Title"
-    let yAxisTitle = "This is the y Axis Title"
+    let chartDescriptionText = ""
     
-    var femaleStudentsDataEntry = PieChartDataEntry(value: 0)
-    var maleStudentsDataEntry = PieChartDataEntry(value: 0)
-    var studentsGenderDataEntries = [PieChartDataEntry]()
+    var dataEntry1PieChart = PieChartDataEntry(value: 0)
+    var dataEntry2PieChart = PieChartDataEntry(value: 0)
+    var dataEntriesPieChart = [PieChartDataEntry]()
 
     @IBOutlet weak var chartView: PieChartView!
     
@@ -30,8 +28,6 @@ class ViewController: UIViewController {
         
         loadDataForAll()
         
-        // Charts
-        drawPieChart()
         dontWantToUseTheServiceAtAll()
         
     }
@@ -45,34 +41,38 @@ class ViewController: UIViewController {
     
     // How many people don’t want to use the service (all of them)
     func dontWantToUseTheServiceAtAll(){
+        // For Students
+        var studentsNotWantingCount = 0.0
         for student in students{
             if !student.gardenWork.willUseService && !student.shopping.willUseService && !student.carCleaning.willUseService && !student.tutoring.willUseService && !student.petSitting.willUseService {
-                print("Asshole")
+                studentsNotWantingCount += 1
             }
-//            if student[6] == "Nein" && student[9] == "Nein" && student[12] == "Nein" && student[15] == "Nein" && student[18] == "Nein"{
-//                print("Asshole")
-//            }
         }
+        // For Households
+        var householdsNotWanting = 0.0
+        for household in households{
+            if !household.gardenWork.willUseService && !household.shopping.willUseService && !household.carCleaning.willUseService && !household.tutoring.willUseService && !household.petSitting.willUseService {
+                householdsNotWanting += 1
+            }
+        }
+        // Chart
+        drawPieChart(data1: householdsNotWanting, label1: "Number Of Households who don't want to use the service at all", data2: Double(households.count) - householdsNotWanting, label2: "Number Of Households who would use the service at least once")
     }
     
     
     // Pie Chart
-    func drawPieChart(){
-        var men = 0.0
-        var women = 0.0
-        for person in rawStudents{
-            person[2] == "Weiblich" ? (women += 1.0) : (men += 1.0)
-        }
+    func drawPieChart(data1: Double, label1: String, data2: Double, label2: String){
         chartView.chartDescription?.text = chartDescriptionText
-        maleStudentsDataEntry.label = xAxisTitle
-        maleStudentsDataEntry.value = men
-        femaleStudentsDataEntry.label = yAxisTitle
-        femaleStudentsDataEntry.value = women
-        studentsGenderDataEntries = [femaleStudentsDataEntry, maleStudentsDataEntry]
-        let chartDataSet = PieChartDataSet(entries: studentsGenderDataEntries, label: nil)
+        dataEntry2PieChart.label = label1
+        dataEntry2PieChart.value = data1
+        dataEntry1PieChart.label = label2
+        dataEntry1PieChart.value = data2
+        dataEntriesPieChart = [dataEntry1PieChart, dataEntry2PieChart]
+        let chartDataSet = PieChartDataSet(entries: dataEntriesPieChart, label: nil)
+        chartView.drawEntryLabelsEnabled = false
         let chartData = PieChartData(dataSet: chartDataSet)
         
-        let colors = [UIColor.red, UIColor.blue]
+        let colors = [UIColor(red: 20/255, green: 61/255, blue: 89/255, alpha: 1), UIColor(red: 244/255, green: 180/255, blue: 26/255, alpha: 1)]
         chartDataSet.colors = colors
         
         chartView.data = chartData
@@ -193,6 +193,14 @@ class ViewController: UIViewController {
         return household
     }
     
+    
+    func getNumberFormat() -> NumberFormatter{
+        let formatter = NumberFormatter()
+//        formatter.numberStyle = .percent
+        formatter.maximumFractionDigits = 0
+        formatter.multiplier = 1.0
+        return formatter
+    }
     
 
 }
