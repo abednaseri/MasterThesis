@@ -176,7 +176,7 @@ class ViewController: UIViewController {
     
     func processStudentObject(rawStudent: [String]) -> Student{
         let student = Student(
-            age: Int(rawStudent[1]),
+            age: Int(rawStudent[1]) ?? -1,
             gender: rawStudent[2] == "Weiblich" ? Gender.Female : rawStudent[2] == "Männlich" ? Gender.Male : Gender.Diverse,
             degree: rawStudent[3] == "Bachelor" ? Degree.Bachelor: rawStudent[3] == "Master" ? Degree.Master : rawStudent[3] == "PhD" ? Degree.PhD : Degree.Other,
             isWorkingStudent: rawStudent[4] == "Ja",
@@ -206,12 +206,12 @@ class ViewController: UIViewController {
     
     func processHouseholdObject(rawHousehold: [String]) -> Household{
         let household = Household(
-            age: Int(rawHousehold[1]),
+            age: Int(rawHousehold[1]) ?? 0,
             gender: rawHousehold[2] == "Weiblich" ? Gender.Female : rawHousehold[2] == "Männlich" ? Gender.Male : Gender.Diverse,
             relationshipStatus: rawHousehold[3] == "In einer Beziehung" ? Relationship.InARelationship : rawHousehold[3] == "Ledig" ? Relationship.Single : rawHousehold[3] == "Verheiratet" ? Relationship.Married : Relationship.Other,
             jobStatus: rawHousehold[4] == "Angestellt" ? JobStatus.Employed : rawHousehold[4] == "Selbständig" ? JobStatus.SelfEmployed : rawHousehold[4] == "Arbeitslos" ? JobStatus.JobLess : JobStatus.Other,
-            numberOfPersonsInHome: Int(rawHousehold[5]),
-            stressLevel: Int(rawHousehold[6]),
+            numberOfPersonsInHome: Int(rawHousehold[5]) ?? 0,
+            stressLevel: Int(rawHousehold[6]) ?? 0,
             gardenWork: ScenarioQuestions(
                 canImagine: rawHousehold[7] == "Ja",
                 willUseService: rawHousehold[8] == "Ja",

@@ -19,14 +19,18 @@ enum Degree {
     case Other
 }
 
-struct Student {
-    var age: Int!
+class Student: MainObject {
+    var age: Int
     var gender: Gender!
     var degree: Degree!
     var isWorkingStudent: Bool!
-    var gardenWork: ScenarioQuestions!
-    var shopping: ScenarioQuestions!
-    var carCleaning: ScenarioQuestions!
-    var tutoring: ScenarioQuestions!
-    var petSitting: ScenarioQuestions!
+    
+    init(age: Int, gender: Gender, degree: Degree, isWorkingStudent: Bool, gardenWork: ScenarioQuestions, shopping: ScenarioQuestions, carCleaning: ScenarioQuestions, tutoring: ScenarioQuestions, petSitting: ScenarioQuestions) {
+        self.age = age
+        self.gender = gender
+        self.degree = degree
+        self.isWorkingStudent = isWorkingStudent
+        
+        super.init(gardenWork: gardenWork, shopping: shopping, carCleaning: carCleaning, tutoring: tutoring, petSitting: petSitting)
+    }
 }
