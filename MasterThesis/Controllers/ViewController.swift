@@ -29,6 +29,7 @@ class ViewController: UIViewController {
         loadDataForAll()
         
         dontWantToUseTheServiceAtAll()
+        print(wantToUseAtLeastTwice(array: students))
         
     }
     
@@ -57,6 +58,48 @@ class ViewController: UIViewController {
         }
         // Chart
         drawPieChart(data1: householdsNotWanting, label1: "Number Of Households who don't want to use the service at all", data2: Double(households.count) - householdsNotWanting, label2: "Number Of Households who would use the service at least once")
+    }
+    
+    
+    
+    // How many people want to use at least n times
+    func wantToUseAtLeastTwice(array: [MainObject], times: Int = 2) -> Int{
+        var numOfPersons = 0
+        
+        for person in array{
+            var numberOfTimes = 0
+            if person.gardenWork.willUseService {
+                numberOfTimes += 1
+            }
+            if person.shopping.willUseService {
+                numberOfTimes += 1
+            }
+            if numberOfTimes == times {
+                numOfPersons += 1
+                continue
+            }
+            if person.carCleaning.willUseService {
+                numberOfTimes += 1
+            }
+            if numberOfTimes == times {
+                numOfPersons += 1
+                continue
+            }
+            if person.tutoring.willUseService{
+                numberOfTimes += 1
+            }
+            if numberOfTimes == times {
+                numOfPersons += 1
+                continue
+            }
+            if person.petSitting.willUseService {
+                numberOfTimes += 1
+            }
+            if numberOfTimes == times {
+                numOfPersons += 1
+            }
+        }
+        return numOfPersons
     }
     
     
