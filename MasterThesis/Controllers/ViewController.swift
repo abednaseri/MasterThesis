@@ -21,15 +21,14 @@ class ViewController: UIViewController {
     var dataEntry2PieChart = PieChartDataEntry(value: 0)
     var dataEntriesPieChart = [PieChartDataEntry]()
 
-    @IBOutlet weak var chartView: PieChartView!
+    @IBOutlet weak var chartView: BarChartView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         loadDataForAll()
         
-        dontWantToUseTheServiceAtAll()
-        print(wantToUseAtLeastTwice(array: students))
+        calculateWantToUseAtLeastNTimesWithGraph()
         
     }
     
@@ -63,7 +62,24 @@ class ViewController: UIViewController {
     
     
     // How many people want to use at least n times
-    func wantToUseAtLeastTwice(array: [MainObject], times: Int = 2) -> Int{
+    func calculateWantToUseAtLeastNTimesWithGraph(){
+        var studentsNumbers: [Double] = []
+        var householdsNumbers: [Double] = []
+
+        //Students
+        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 2).convertToPercentage(with: students.count))
+        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 3).convertToPercentage(with: students.count))
+        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 4).convertToPercentage(with: students.count))
+        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 5).convertToPercentage(with: students.count))
+        //Households
+        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 2).convertToPercentage(with: households.count))
+        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 3).convertToPercentage(with: households.count))
+        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 4).convertToPercentage(with: households.count))
+        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 5).convertToPercentage(with: households.count))
+        
+        drawBarChart(xAxis: [2,3,4,5], yAxis: studentsNumbers)
+    }
+    func wantToUseAtLeastNTimes(array: [MainObject], times: Int = 2) -> Double{
         var numOfPersons = 0
         
         for person in array{
@@ -99,7 +115,7 @@ class ViewController: UIViewController {
                 numOfPersons += 1
             }
         }
-        return numOfPersons
+        return Double(numOfPersons)
     }
     
     
@@ -112,7 +128,7 @@ class ViewController: UIViewController {
         dataEntry1PieChart.value = data2
         dataEntriesPieChart = [dataEntry1PieChart, dataEntry2PieChart]
         let chartDataSet = PieChartDataSet(entries: dataEntriesPieChart, label: nil)
-        chartView.drawEntryLabelsEnabled = false
+//        chartView.drawEntryLabelsEnabled = false
         let chartData = PieChartData(dataSet: chartDataSet)
         
         let colors = [UIColor(red: 20/255, green: 61/255, blue: 89/255, alpha: 1), UIColor(red: 244/255, green: 180/255, blue: 26/255, alpha: 1)]
@@ -121,6 +137,28 @@ class ViewController: UIViewController {
         chartView.data = chartData
     }
     
+    
+    func drawBarChart(xAxis: [Double], yAxis: [Double]){
+        
+        var dataEntries: [BarChartDataEntry] = []
+        for (index, xEntry) in xAxis.enumerated(){
+            let barChartDataEntry = BarChartDataEntry(x: xEntry, y: yAxis[index])
+            dataEntries.append(barChartDataEntry)
+        }
+        
+        
+        let chartDataSet = BarChartDataSet(entries: dataEntries, label: "Percentage of students who would use at least n scenarios.")
+//        chartDataSet.colors = [UIColor.green]
+        let chartData = BarChartData(dataSet: chartDataSet)
+        chartView.xAxis.granularity = 1.0
+//        chartView.xAxis. = "Hi abeshkjdh vkdh"
+        chartView.xAxis.drawGridLinesEnabled = false
+        chartView.leftAxis.axisMaximum = 100
+        chartView.rightAxis.axisMaximum = 100
+        chartView.leftAxis.axisMinimum = 0
+        chartView.rightAxis.axisMinimum = 0
+        chartView.data = chartData
+    }
     
     
     
