@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     var students: [Student] = []
     var households: [Household] = []
     var rawHouseholds: [[String]]!
+    var studentsCount: Int!
+    var householdsCount: Int!
     let chartDescriptionText = ""
     
     var dataEntry1PieChart = PieChartDataEntry(value: 0)
@@ -28,8 +30,7 @@ class ViewController: UIViewController {
         
         loadDataForAll()
         
-        calculateWantToUseAtLeastNTimesWithGraph()
-        
+        showScenariosPopularityGraph()
     }
     
     
@@ -56,7 +57,7 @@ class ViewController: UIViewController {
             }
         }
         // Chart
-        drawPieChart(data1: studentsNotWantingCount.convertToPercentage(with: students.count), label1: "Percentage Of Students Who Don't Want To Use The Service At All", data2: (Double(students.count) - studentsNotWantingCount).convertToPercentage(with: students.count), label2: "Percentage Of Students Who Would Use The Service At Least Once")
+        drawPieChart(data1: studentsNotWantingCount.convertToPercentage(with: studentsCount), label1: "Percentage Of Students Who Don't Want To Use The Service At All", data2: (Double(students.count) - studentsNotWantingCount).convertToPercentage(with: studentsCount), label2: "Percentage Of Students Who Would Use The Service At Least Once")
     }
     
     
@@ -67,17 +68,17 @@ class ViewController: UIViewController {
         var householdsNumbers: [Double] = []
 
         //Students
-        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 2).convertToPercentage(with: students.count))
-        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 3).convertToPercentage(with: students.count))
-        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 4).convertToPercentage(with: students.count))
-        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 5).convertToPercentage(with: students.count))
+        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 2).convertToPercentage(with: studentsCount))
+        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 3).convertToPercentage(with: studentsCount))
+        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 4).convertToPercentage(with: studentsCount))
+        studentsNumbers.append(wantToUseAtLeastNTimes(array: students, times: 5).convertToPercentage(with: studentsCount))
         //Households
-        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 2).convertToPercentage(with: households.count))
-        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 3).convertToPercentage(with: households.count))
-        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 4).convertToPercentage(with: households.count))
-        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 5).convertToPercentage(with: households.count))
+        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 2).convertToPercentage(with: householdsCount))
+        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 3).convertToPercentage(with: householdsCount))
+        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 4).convertToPercentage(with: householdsCount))
+        householdsNumbers.append(wantToUseAtLeastNTimes(array: households, times: 5).convertToPercentage(with: householdsCount))
         
-        drawBarChart(xAxis: [2,3,4,5], yAxis: studentsNumbers)
+        drawBarChart(xAxis: [2,3,4,5], yAxis: studentsNumbers, label: "Percentage of students who would use at least n scenarios.")
     }
     func wantToUseAtLeastNTimes(array: [MainObject], times: Int = 2) -> Double{
         var numOfPersons = 0
@@ -118,6 +119,60 @@ class ViewController: UIViewController {
         return Double(numOfPersons)
     }
     
+    // Show Scenarios Popularity Graph
+    func showScenariosPopularityGraph(){
+        let popularityHouseholds = claculateScenarioPopularity(array: households)
+        let results2 = [
+            Double(popularityHouseholds[Scenarios.Gardening]!).convertToPercentage(with: householdsCount),
+            Double(popularityHouseholds[Scenarios.Shopping]!).convertToPercentage(with: householdsCount),
+            Double(popularityHouseholds[Scenarios.Car]!).convertToPercentage(with: householdsCount),
+            Double(popularityHouseholds[Scenarios.Tutoring]!).convertToPercentage(with: householdsCount),
+            Double(popularityHouseholds[Scenarios.PetSitting]!).convertToPercentage(with: householdsCount)
+        ]
+        let popularityStudents = claculateScenarioPopularity(array: students)
+        let results1 = [
+            Double(popularityStudents[Scenarios.Gardening]!).convertToPercentage(with: studentsCount),
+            Double(popularityStudents[Scenarios.Shopping]!).convertToPercentage(with: studentsCount),
+            Double(popularityStudents[Scenarios.Car]!).convertToPercentage(with: studentsCount),
+            Double(popularityStudents[Scenarios.Tutoring]!).convertToPercentage(with: studentsCount),
+            Double(popularityStudents[Scenarios.PetSitting]!).convertToPercentage(with: studentsCount)
+        ]
+        //        let array = popularity.values.map{ Double($0).convertToPercentage(with: students.count) } // Changing order of numbers, don't know why
+        
+        //        drawBarChart(xAxis: [0,1,2,3,4], yAxis: results, label: "Percentage Of Popularity Of Scenarios Among Households.")
+        drawGroupedBarChart(xAxis: [0,1,2,3,4], yAxis1: results1, yAxis2: results2, label: "Percentage Of Popularity Of Scenarios Among Households.")
+    }
+    
+    // Calculate Popularity
+    func claculateScenarioPopularity(array: [MainObject]) -> [Scenarios: Int]{
+        var popularity = [
+            Scenarios.Gardening: 0,
+            Scenarios.Shopping: 0,
+            Scenarios.Car: 0,
+            Scenarios.Tutoring: 0,
+            Scenarios.PetSitting: 0
+        ]
+        for person in array{
+            popularity[Scenarios.Gardening]! += person.gardenWork.willUseService ? 1 : 0
+            popularity[Scenarios.Shopping]! += person.shopping.willUseService ? 1 : 0
+            popularity[Scenarios.Car]! += person.carCleaning.willUseService ? 1 : 0
+            popularity[Scenarios.Tutoring]! += person.tutoring.willUseService ? 1 : 0
+            popularity[Scenarios.PetSitting]! += person.petSitting.willUseService ? 1 : 0
+        }
+        return popularity
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     // Pie Chart
     func drawPieChart(data1: Double, label1: String, data2: Double, label2: String){
@@ -138,20 +193,24 @@ class ViewController: UIViewController {
     }
     
     
-    func drawBarChart(xAxis: [Double], yAxis: [Double]){
+    func drawBarChart(xAxis: [Double], yAxis: [Double], label: String){
+        let formatter = BarChartFormatter()
+        let xaxis = XAxis()
         
         var dataEntries: [BarChartDataEntry] = []
         for (index, xEntry) in xAxis.enumerated(){
             let barChartDataEntry = BarChartDataEntry(x: xEntry, y: yAxis[index])
             dataEntries.append(barChartDataEntry)
+            formatter.stringForValue(Double(index), axis: xaxis)
         }
+        xaxis.valueFormatter = formatter
         
+        chartView.xAxis.valueFormatter = xaxis.valueFormatter
         
-        let chartDataSet = BarChartDataSet(entries: dataEntries, label: "Percentage of students who would use at least n scenarios.")
-//        chartDataSet.colors = [UIColor.green]
+        let chartDataSet = BarChartDataSet(entries: dataEntries, label: label)
+        chartDataSet.colors = [UIColor.green]
         let chartData = BarChartData(dataSet: chartDataSet)
         chartView.xAxis.granularity = 1.0
-//        chartView.xAxis. = "Hi abeshkjdh vkdh"
         chartView.xAxis.drawGridLinesEnabled = false
         chartView.leftAxis.axisMaximum = 100
         chartView.rightAxis.axisMaximum = 100
@@ -159,6 +218,69 @@ class ViewController: UIViewController {
         chartView.rightAxis.axisMinimum = 0
         chartView.data = chartData
     }
+    
+    func drawGroupedBarChart(xAxis: [Double], yAxis1: [Double], yAxis2: [Double], label: String) {
+        let formatter = BarChartFormatter()
+        let xaxis = XAxis()
+        
+        chartView.noDataText = "You need to provide data for the chart."
+        var dataEntries: [BarChartDataEntry] = []
+        var dataEntries1: [BarChartDataEntry] = []
+        
+        for (index, xEntry) in xAxis.enumerated(){
+            
+            let dataEntry = BarChartDataEntry(x: xEntry, y: yAxis1[index])
+            dataEntries.append(dataEntry)
+            
+            let dataEntry2 = BarChartDataEntry(x: xEntry, y: yAxis2[index])
+            dataEntries1.append(dataEntry2)
+            
+            formatter.stringForValue(Double(index), axis: xaxis)
+        }
+        xaxis.valueFormatter = formatter
+        chartView.xAxis.valueFormatter = xaxis.valueFormatter
+        
+        let chartDataSet = BarChartDataSet(entries: dataEntries, label: "Students")
+        let chartDataSet1 = BarChartDataSet(entries: dataEntries1, label: "Households")
+        
+        let dataSets: [BarChartDataSet] = [chartDataSet,chartDataSet1]
+        chartDataSet.colors = [UIColor(red: 230/255, green: 126/255, blue: 34/255, alpha: 1)]
+        //chartDataSet.colors = ChartColorTemplates.colorful()
+        //let chartData = BarChartData(dataSet: chartDataSet)
+        
+        let chartData = BarChartData(dataSets: dataSets)
+        
+        let groupSpace = 0.3
+        let barSpace = 0.05
+        let barWidth = 0.3
+        // (0.3 + 0.05) * 2 + 0.3 = 1.00 -> interval per "group"
+        
+        let groupCount = 5
+        let startYear = 0
+        
+        
+        chartData.barWidth = barWidth;
+        chartView.xAxis.axisMinimum = Double(startYear)
+        let gg = chartData.groupWidth(groupSpace: groupSpace, barSpace: barSpace)
+        chartView.xAxis.axisMaximum = Double(startYear) + gg * Double(groupCount)
+        
+        chartData.groupBars(fromX: Double(startYear), groupSpace: groupSpace, barSpace: barSpace)
+        //chartData.groupWidth(groupSpace: groupSpace, barSpace: barSpace)
+        chartView.notifyDataSetChanged()
+        chartView.data = chartData
+        
+        //background color
+//        barChartView.backgroundColor = UIColor(red: 189/255, green: 195/255, blue: 199/255, alpha: 1)
+        
+        //chart animation
+//        chartView.animate(xAxisDuration: 1.5, yAxisDuration: 1.5, easingOption: .linear)
+        
+    }
+    
+    
+    
+    
+    
     
     
     
@@ -198,6 +320,7 @@ class ViewController: UIViewController {
                 let student = processStudentObject(rawStudent: rawStudent)
                 students.append(student)
             }
+            studentsCount = students.count
         }
         if let householdData = readDataFromCSV(fileName: "households", fileType: "csv"){
             self.rawHouseholds = householdData.csv()
@@ -209,6 +332,7 @@ class ViewController: UIViewController {
                 let household = processHouseholdObject(rawHousehold: rawHousehold)
                 households.append(household)
             }
+            householdsCount = households.count
         }
     }
     

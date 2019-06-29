@@ -21,3 +21,11 @@ class MainObject {
         self.petSitting = petSitting
     }
 }
+
+enum Scenarios{
+    case Gardening
+    case Shopping
+    case Car
+    case Tutoring
+    case PetSitting
+}
