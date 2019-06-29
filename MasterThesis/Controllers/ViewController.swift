@@ -29,8 +29,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         loadDataForAll()
-        
-        showScenariosPopularityGraph()
+        getPercentageOfPeopleWantingToUseServiceForEveryGender()
     }
     
     
@@ -162,6 +161,22 @@ class ViewController: UIViewController {
         return popularity
     }
     
+    // What is the percentage of people who want to use this service for every gender?
+    func getPercentageOfPeopleWantingToUseServiceForEveryGender(){
+        var results: [Gender: Int] = [
+            Gender.Male: 0,
+            Gender.Female: 0
+        ]
+        for person in households{
+            if person.gardenWork.willUseService || person.shopping.willUseService || person.carCleaning.willUseService || person.tutoring.willUseService || person.petSitting.willUseService {
+                person.gender == Gender.Male ? (results[Gender.Male]! += 1) : (results[Gender.Female]! += 1)
+            }
+        }
+        let sumOfPositives = results[Gender.Male]! + results[Gender.Female]!
+        print("Sum is \(sumOfPositives)")
+        print("Male \(Double(results[Gender.Male]!).convertToPercentage(with: sumOfPositives))")
+        print("Female \(Double(results[Gender.Female]!).convertToPercentage(with: sumOfPositives))")
+    }
     
     
     
