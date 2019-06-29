@@ -56,7 +56,7 @@ class ViewController: UIViewController {
             }
         }
         // Chart
-        drawPieChart(data1: householdsNotWanting, label1: "Number Of Households who don't want to use the service at all", data2: Double(households.count) - householdsNotWanting, label2: "Number Of Households who would use the service at least once")
+        drawPieChart(data1: studentsNotWantingCount.convertToPercentage(with: students.count), label1: "Percentage Of Students Who Don't Want To Use The Service At All", data2: (Double(students.count) - studentsNotWantingCount).convertToPercentage(with: students.count), label2: "Percentage Of Students Who Would Use The Service At Least Once")
     }
     
     
