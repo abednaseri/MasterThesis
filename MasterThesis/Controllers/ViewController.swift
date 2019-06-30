@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         loadDataForAll()
-        getPercentageOfPeopleWantingToUseServiceForEveryAgeGroup()
+        getPercentageOfPeopleWantingToUseServiceForRelationshipStatus()
     }
     
     
@@ -198,6 +198,25 @@ class ViewController: UIViewController {
         }
         let sumOfPositives = 50 // 60 or 50
         print("Sum is \(sumOfPositives)")
+        print(results)
+    }
+    
+    // What is the percentage of people who want to use this service for Relationship Status?
+    func getPercentageOfPeopleWantingToUseServiceForRelationshipStatus(){
+        var results = [
+            Relationship.InARelationship: 0,
+            Relationship.Married: 0,
+            Relationship.Single: 0,
+            Relationship.Other: 0
+        ]
+        for person in households{
+            if person.gardenWork.willUseService || person.shopping.willUseService || person.carCleaning.willUseService || person.tutoring.willUseService || person.petSitting.willUseService {
+                results[Relationship.InARelationship]! += person.relationshipStatus == Relationship.InARelationship ? 1 : 0
+                results[Relationship.Married]! += person.relationshipStatus == Relationship.Married ? 1 : 0
+                results[Relationship.Single]! += person.relationshipStatus == Relationship.Single ? 1 : 0
+                results[Relationship.Other]! += person.relationshipStatus == Relationship.Other ? 1 : 0
+            }
+        }
         print(results)
     }
     
