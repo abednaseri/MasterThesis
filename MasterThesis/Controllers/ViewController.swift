@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         loadDataForAll()
-        getPercentageOfPeopleWantingToUseServiceForEveryGender()
+        getPercentageOfPeopleWantingToUseServiceForEveryAgeGroup()
     }
     
     
@@ -176,6 +176,29 @@ class ViewController: UIViewController {
         print("Sum is \(sumOfPositives)")
         print("Male \(Double(results[Gender.Male]!).convertToPercentage(with: sumOfPositives))")
         print("Female \(Double(results[Gender.Female]!).convertToPercentage(with: sumOfPositives))")
+    }
+    
+    // What is the percentage of people who want to use this service for every age group?
+    func getPercentageOfPeopleWantingToUseServiceForEveryAgeGroup(){
+        var results = [
+            "UpTo25": 0,
+            "26-35": 0,
+            "36-45": 0,
+            "46-55": 0,
+            "56Above": 0
+        ]
+        for person in households{
+            if person.gardenWork.willUseService || person.shopping.willUseService || person.carCleaning.willUseService || person.tutoring.willUseService || person.petSitting.willUseService {
+                results["UpTo25"]! += AgeGroups.UpTo25.contains(person.age) ? 1 : 0
+                results["26-35"]! += AgeGroups.From26To35.contains(person.age) ? 1 : 0
+                results["36-45"]! += AgeGroups.From36To45.contains(person.age) ? 1 : 0
+                results["46-55"]! += AgeGroups.From46To55.contains(person.age) ? 1 : 0
+                results["56Above"]! += AgeGroups.From56Above.contains(person.age) ? 1 : 0
+            }
+        }
+        let sumOfPositives = 50 // 60 or 50
+        print("Sum is \(sumOfPositives)")
+        print(results)
     }
     
     
