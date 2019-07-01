@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         
         loadDataForAll()
         
-        getNTimesUseOfScenariosForStressLevel()
+        getPercentageOfPeopleWantingToUseServiceForStudentDegree()
     }
     
     
@@ -269,6 +269,31 @@ class ViewController: UIViewController {
         ]
         print(notStressedResults)
     }
+    
+    func getPercentageOfPeopleWantingToUseServiceForStudentDegree(){
+        var results = [
+            Degree.Bachelor: 0.0,
+            Degree.Master: 0.0
+        ]
+        for person in students{
+            if person.petSitting.willUseService /*|| person.shopping.willUseService || person.carCleaning.willUseService || person.tutoring.willUseService || person.petSitting.willUseService */{
+                results[Degree.Bachelor]! += person.degree == Degree.Bachelor ? 1 : 0
+                results[Degree.Master]! += person.degree == Degree.Master ? 1 : 0
+            }
+        }
+        let sum = results[Degree.Bachelor]! + results[Degree.Master]!
+        print(results[Degree.Bachelor]!.convertToPercentage(with: Int(sum)))
+        print(results[Degree.Master]!.convertToPercentage(with: Int(sum)))
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
