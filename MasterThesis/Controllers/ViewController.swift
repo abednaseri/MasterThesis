@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         
         loadDataForAll()
         
-        getPercentageOfPeopleWantingToUseServiceForStudentDegree()
+        medianPriceForEachScenario()
     }
     
     
@@ -286,7 +286,41 @@ class ViewController: UIViewController {
         print(results[Degree.Master]!.convertToPercentage(with: Int(sum)))
     }
     
+    // Average Price For Each Scenario
+    func averagePriceForEachScenario(){
+        var priceArrayStd: [Int] = []
+        var priceArrayHsd: [Int] = []
+        for person in students{
+            if let price = person.petSitting.price{
+                priceArrayStd.append(price)
+            }
+        }
+        for person in households{
+            if let price = person.petSitting.price{
+                priceArrayHsd.append(price)
+            }
+        }
+        print("Students \(priceArrayStd.average)")
+        print("Households \(priceArrayHsd.average)")
+    }
     
+    // Average Price For Each Scenario
+    func medianPriceForEachScenario(){
+        var priceArrayStd: [Int] = []
+        var priceArrayHsd: [Int] = []
+        for person in students{
+            if let price = person.tutoring.price{
+                priceArrayStd.append(price)
+            }
+        }
+        for person in households{
+            if let price = person.tutoring.price{
+                priceArrayHsd.append(price)
+            }
+        }
+        print(median(array: priceArrayStd))
+        print(median(array: priceArrayHsd))
+    }
     
     
     
@@ -540,5 +574,13 @@ class ViewController: UIViewController {
     }
     
 
+    func median(array: [Int]) -> Float {
+        let sorted = array.sorted()
+        if sorted.count % 2 == 0{
+            return Float((sorted[sorted.count / 2] + sorted[(sorted.count / 2) - 1])) / 2
+        }else{
+            return Float(sorted[(sorted.count - 1 ) / 2])
+        }
+    }
 }
 
