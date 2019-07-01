@@ -29,7 +29,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         loadDataForAll()
-        getPercentageOfPeopleWantingToUseServiceForRelationshipStatus()
+        
+        getNTimesUseOfScenariosForStressLevel()
     }
     
     
@@ -174,6 +175,7 @@ class ViewController: UIViewController {
         }
         let sumOfPositives = results[Gender.Male]! + results[Gender.Female]!
         print("Sum is \(sumOfPositives)")
+        print(results)
         print("Male \(Double(results[Gender.Male]!).convertToPercentage(with: sumOfPositives))")
         print("Female \(Double(results[Gender.Female]!).convertToPercentage(with: sumOfPositives))")
     }
@@ -187,7 +189,7 @@ class ViewController: UIViewController {
             "46-55": 0,
             "56Above": 0
         ]
-        for person in households{
+        for person in students{
             if person.gardenWork.willUseService || person.shopping.willUseService || person.carCleaning.willUseService || person.tutoring.willUseService || person.petSitting.willUseService {
                 results["UpTo25"]! += AgeGroups.UpTo25.contains(person.age) ? 1 : 0
                 results["26-35"]! += AgeGroups.From26To35.contains(person.age) ? 1 : 0
@@ -218,6 +220,54 @@ class ViewController: UIViewController {
             }
         }
         print(results)
+    }
+    
+    // What is the percentage of people who want to use this service based on Stress Level?
+    func getPercentageOfPeopleWantingToUseServiceForStressLevel(){
+        var popularity = [
+            Scenarios.Gardening: 0,
+            Scenarios.Shopping: 0,
+            Scenarios.Car: 0,
+            Scenarios.Tutoring: 0,
+            Scenarios.PetSitting: 0
+        ]
+        for person in households{
+            popularity[Scenarios.Gardening]! += (person.gardenWork.willUseService && person.stressLevel >= 4) ? 1 : 0
+            popularity[Scenarios.Shopping]! += (person.shopping.willUseService && person.stressLevel >= 4) ? 1 : 0
+            popularity[Scenarios.Car]! += (person.carCleaning.willUseService && person.stressLevel >= 4) ? 1 : 0
+            popularity[Scenarios.Tutoring]! += (person.tutoring.willUseService && person.stressLevel >= 4) ? 1 : 0
+            popularity[Scenarios.PetSitting]! += (person.petSitting.willUseService && person.stressLevel >= 4) ? 1 : 0
+        }
+        print(popularity)
+        print("Gardening \(10.0.convertToPercentage(with: 50))")
+        print("Shopping \(10.0.convertToPercentage(with: 50))")
+        print("Car \(11.0.convertToPercentage(with: 50))")
+        print("Tutoring \(13.0.convertToPercentage(with: 50))")
+        print("PetSitting \(6.0.convertToPercentage(with: 50))")
+    }
+    
+    // What is Number of Times people want to use scenarios based on Stress Level?
+    func getNTimesUseOfScenariosForStressLevel(){
+        let stressed = households.filter { $0.stressLevel >= 4 }
+        let notStressed = households.filter { $0.stressLevel < 4 }
+        
+        let stressedResults = [
+            1: wantToUseAtLeastNTimes(array: stressed, times: 1).convertToPercentage(with: stressed.count),
+            2: wantToUseAtLeastNTimes(array: stressed, times: 2).convertToPercentage(with: stressed.count),
+            3: wantToUseAtLeastNTimes(array: stressed, times: 3).convertToPercentage(with: stressed.count),
+            4: wantToUseAtLeastNTimes(array: stressed, times: 4).convertToPercentage(with: stressed.count),
+            5: wantToUseAtLeastNTimes(array: stressed, times: 5).convertToPercentage(with: stressed.count)
+        ]
+        print(stressedResults)
+        
+        let notStressedResults = [
+            1: wantToUseAtLeastNTimes(array: notStressed, times: 1).convertToPercentage(with: notStressed.count),
+            2: wantToUseAtLeastNTimes(array: notStressed, times: 2).convertToPercentage(with: notStressed.count),
+            3: wantToUseAtLeastNTimes(array: notStressed, times: 3).convertToPercentage(with: notStressed.count),
+            4: wantToUseAtLeastNTimes(array: notStressed, times: 4).convertToPercentage(with: notStressed.count),
+            5: wantToUseAtLeastNTimes(array: notStressed, times: 5).convertToPercentage(with: notStressed.count)
+        ]
+        print(notStressedResults)
     }
     
     
