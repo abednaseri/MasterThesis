@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         
         loadDataForAll()
         
-        medianPriceForEachScenario()
+        numberOfPeopleWhoFoundAPersonToDoATask()
     }
     
     
@@ -304,7 +304,7 @@ class ViewController: UIViewController {
         print("Households \(priceArrayHsd.average)")
     }
     
-    // Average Price For Each Scenario
+    // Median Price For Each Scenario
     func medianPriceForEachScenario(){
         var priceArrayStd: [Int] = []
         var priceArrayHsd: [Int] = []
@@ -320,6 +320,33 @@ class ViewController: UIViewController {
         }
         print(median(array: priceArrayStd))
         print(median(array: priceArrayHsd))
+    }
+    
+    
+    
+    
+    
+    // How many people found someone to do the work/give a job for the offered price
+    func numberOfPeopleWhoFoundAPersonToDoATask(){
+        var results: [Int:Int] = [:]
+        var allWantingInThisCategory = 0
+        for person in households{
+            if let price = person.gardenWork.price{
+                allWantingInThisCategory += 1
+                let matchingOnes = students.filter { (student) -> Bool in
+                    return student.gardenWork.willUseService && student.gardenWork.price != nil && student.gardenWork.price <= price
+                }
+                results[price] = matchingOnes.count
+            }
+        }
+        let onlyValues = results.map { (key, value) -> Int in
+            return value
+        }
+        // Show Average
+        print(onlyValues.average.convertToPercentage(with: allWantingInThisCategory))
+        // Show all
+        print(results)
+        print(allWantingInThisCategory)
     }
     
     
