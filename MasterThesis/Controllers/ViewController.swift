@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         
         loadDataForAll()
         
-        numberOfPeopleWhoFoundAPersonToDoATask()
+        compareMasterVsBachelorMinimumPrice()
     }
     
     
@@ -239,11 +239,11 @@ class ViewController: UIViewController {
             popularity[Scenarios.PetSitting]! += (person.petSitting.willUseService && person.stressLevel >= 4) ? 1 : 0
         }
         print(popularity)
-        print("Gardening \(10.0.convertToPercentage(with: 50))")
-        print("Shopping \(10.0.convertToPercentage(with: 50))")
-        print("Car \(11.0.convertToPercentage(with: 50))")
-        print("Tutoring \(13.0.convertToPercentage(with: 50))")
-        print("PetSitting \(6.0.convertToPercentage(with: 50))")
+        print("Gardening \(10.0.convertToPercentage(with: 28))")
+        print("Shopping \(10.0.convertToPercentage(with: 26))")
+        print("Car \(11.0.convertToPercentage(with: 23))")
+        print("Tutoring \(13.0.convertToPercentage(with: 42))")
+        print("PetSitting \(6.0.convertToPercentage(with: 21))")
     }
     
     // What is Number of Times people want to use scenarios based on Stress Level?
@@ -349,9 +349,90 @@ class ViewController: UIViewController {
         print(allWantingInThisCategory)
     }
     
+    // Median Price For Each Scenario Based on Gender
+    func medianPriceForEachScenarioGenderBase(){
+        var priceArrayMale: [Int] = []
+        var priceArrayFemale: [Int] = []
+        for person in students{
+            if let price = person.petSitting.price{
+                person.gender == Gender.Male ? priceArrayMale.append(price) : priceArrayFemale.append(price)
+            }
+        }
+        print(median(array: priceArrayMale))
+        print(median(array: priceArrayFemale))
+    }
     
+    // Get Relationship Status of Stressed People
+    func getRelationsshipStatusOfStressedPeople(){
+        let stressed = households.filter{ $0.stressLevel >= 4}
+        print(stressed.count)
+        var results = [
+            Relationship.InARelationship: 0,
+            Relationship.Married: 0,
+            Relationship.Single: 0,
+            Relationship.Other: 0
+        ]
+        for person in stressed{
+            switch person.relationshipStatus{
+            case .InARelationship:
+                results[.InARelationship]! += 1
+            case .Married:
+                results[.Married]! += 1
+            case .Single:
+                results[.Single]! += 1
+            case .Other:
+                results[.Other]! += 1
+            }
+        }
+        print(results)
+    }
     
+    // Find all wanting to pay more than and equal to 10
+    func findAllWantingToPayMoreThan10Euros(){
+        var sumAll = 0
+        var numberOfTimesMoreThan10 = 0
+        let euroLimit = 11.5 // euro
+        for person in households{
+            if person.gardenWork.willUseService{
+                sumAll += 1
+                numberOfTimesMoreThan10 += Double(person.gardenWork.price) >= euroLimit ? 1 : 0
+            }
+            if person.shopping.willUseService{
+                sumAll += 1
+                numberOfTimesMoreThan10 += Double(person.shopping.price) >= euroLimit ? 1 : 0
+            }
+            if person.carCleaning.willUseService{
+                sumAll += 1
+                numberOfTimesMoreThan10 += Double(person.carCleaning.price) >= euroLimit ? 1 : 0
+            }
+            if person.tutoring.willUseService{
+                sumAll += 1
+                numberOfTimesMoreThan10 += Double(person.tutoring.price) >= euroLimit ? 1 : 0
+            }
+            if person.petSitting.willUseService{
+                sumAll += 1
+                numberOfTimesMoreThan10 += person.petSitting.price != nil && Double(person.petSitting.price) >= euroLimit ? 1 : 0
+            }
+        }
+        print(sumAll)
+        print(numberOfTimesMoreThan10)
+        print(Double(numberOfTimesMoreThan10).convertToPercentage(with: sumAll))
+    }
     
+    // Get
+    func compareMasterVsBachelorMinimumPrice(){
+        var masterPrice: [Int] = []
+        var bachelorPrice: [Int] = []
+        for student in students{
+            if let price = student.petSitting.price{
+                student.degree == Degree.Bachelor ? bachelorPrice.append(price) : masterPrice.append(price)
+            }
+        }
+//        print(masterPrice.average)
+//        print(bachelorPrice.average)
+        print(median(array: bachelorPrice))
+        print(median(array: masterPrice))
+    }
     
     
     
